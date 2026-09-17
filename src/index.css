@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  background: #0a0a0f;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(139,92,246,0.6);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 30px rgba(139,92,246,0.6);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 16px 24px;
+  background: transparent;
+  color: #a78bfa;
+  border: 2px solid rgba(139,92,246,0.4);
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:active {
+  transform: scale(0.97);
+  background: rgba(139,92,246,0.1);
+}
+
+.btn-green {
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.4);
+}
+
+.btn-green:active {
+  transform: scale(0.97);
+}
+
+.card-premium {
+  background: linear-gradient(145deg, #131320, #0f0f1a);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 40px rgba(139,92,246,0.15);
+}
+
+.option-card {
+  background: linear-gradient(145deg, #131320, #0f0f1a);
+  border: 2px solid rgba(139,92,246,0.2);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: white;
+  text-align: left;
+  width: 100%;
+}
+
+.option-card:active {
+  border-color: #8b5cf6;
+  background: linear-gradient(145deg, #1a1a2e, #131320);
+  transform: scale(0.98);
+}
+
+.option-card.selected {
+  border-color: #8b5cf6;
+  background: linear-gradient(145deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05));
+  box-shadow: 0 0 30px rgba(139,92,246,0.3);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #1f1f2e;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 15px rgba(139,92,246,0.6);
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseGreen 2s ease-in-out infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+}
+
+.cover-frame {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(139,92,246,0.4), 0 0 80px rgba(139,92,246,0.2);
+  animation: glow 3s ease-in-out infinite;
+}
+
+.cover-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cover-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(139,92,246,0.4);
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 20px 60px rgba(139,92,246,0.4), 0 0 80px rgba(139,92,246,0.2); }
+  50% { box-shadow: 0 20px 60px rgba(139,92,246,0.6), 0 0 100px rgba(139,92,246,0.4); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(139,92,246,0.2);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 8px;
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
