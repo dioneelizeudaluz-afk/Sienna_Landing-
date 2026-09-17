@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
 import BackButton from './BackButton';
+import type { TranslationKey } from '../translations';
 
 interface QuizProps {
   step: number;
   totalSteps: number;
-  questionKey: string;
-  options: { key: string; value: string }[];
+  questionKey: TranslationKey;
+  options: { key: TranslationKey; value: string }[];
   onSelect: (value: string) => void;
   onBack: () => void;
 }
@@ -34,7 +35,7 @@ export default function Quiz({ step, totalSteps, questionKey, options, onSelect,
         </div>
       </div>
 
-      <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 24, textAlign: 'center' }}>{t(questionKey as any)}</h2>
+      <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 24, textAlign: 'center' }}>{t(questionKey)}</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {options.map((opt) => (
@@ -43,7 +44,7 @@ export default function Quiz({ step, totalSteps, questionKey, options, onSelect,
             onClick={() => setSelected(opt.value)}
             className={`option-card ${selected === opt.value ? 'selected' : ''}`}
           >
-            {t(opt.key as any)}
+            {t(opt.key)}
           </button>
         ))}
       </div>
@@ -54,7 +55,7 @@ export default function Quiz({ step, totalSteps, questionKey, options, onSelect,
         className="btn-primary"
         style={{ marginTop: 32, opacity: selected ? 1 : 0.5 }}
       >
-        {t('quiz3_a')}
+        {t('quiz_continue')}
       </button>
     </div>
   );
