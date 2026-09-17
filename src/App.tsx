@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LanguageProvider } from './hooks/useLanguage';
+import { LanguageProvider } from './hooks/LanguageProvider';
 import Header from './components/Header';
 import LandingScreen from './components/LandingScreen';
 import AgeGate from './components/AgeGate';
