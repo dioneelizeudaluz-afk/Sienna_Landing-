@@ -3,6 +3,9 @@ export const translations = {
     // Header
     online: 'Online',
     // Landing
+    welcome_title: 'Welcome to my private side…',
+    welcome_line1: 'Exclusive content, little secrets & moments you won\'t find anywhere else.',
+    welcome_line2: 'Are you ready to unlock it?',
     start: 'COMEÇAR',
     start_hint: 'Toque na imagem para começar',
     // Age Gate
@@ -62,6 +65,9 @@ export const translations = {
   },
   en: {
     online: 'Online',
+    welcome_title: 'Welcome to my private side…',
+    welcome_line1: 'Exclusive content, little secrets & moments you won\'t find anywhere else.',
+    welcome_line2: 'Are you ready to unlock it?',
     start: 'START',
     start_hint: 'Tap the image to start',
     age_title: 'Are you over 18?',
@@ -114,6 +120,9 @@ export const translations = {
   },
   es: {
     online: 'En línea',
+    welcome_title: 'Bienvenido a mi lado privado…',
+    welcome_line1: 'Contenido exclusivo, pequeños secretos y momentos que no encontrarás en ningún otro lugar.',
+    welcome_line2: '¿Estás listo para desbloquearlo?',
     start: 'COMENZAR',
     start_hint: 'Toca la imagen para comenzar',
     age_title: '¿Tienes más de 18 años?',
