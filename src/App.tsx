@@ -84,7 +84,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 100%)' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 100%)' }}>
       <Header />
       {render()}
     </div>
