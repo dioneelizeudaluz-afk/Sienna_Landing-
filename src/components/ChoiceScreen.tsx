@@ -24,14 +24,14 @@ export default function ChoiceScreen({ onCheckout, onBack }: { onCheckout: () =>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div className="card-premium">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <ExternalLink size={20} color="#a78bfa" />
+            <ExternalLink size={20} color="#f87171" />
             <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_preview_title')}</h3>
           </div>
           <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16 }}>{t('choice_preview_desc')}</p>
           <button onClick={handlePreview} className="btn-secondary">{t('choice_preview_btn')}</button>
         </div>
 
-        <div className="card-premium" style={{ borderColor: 'rgba(139,92,246,0.6)', boxShadow: '0 8px 40px rgba(139,92,246,0.3)' }}>
+        <div className="card-premium" style={{ borderColor: 'rgba(220,38,38,0.6)', boxShadow: '0 8px 40px rgba(220,38,38,0.3)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
             <Crown size={20} color="#fbbf24" />
             <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_vip_title')}</h3>
