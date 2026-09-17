@@ -2,23 +2,49 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import crypto from 'crypto';
 
 // Webhook do EscalePay
-// Recebe eventos: Pagamento Confirmado, Pendente, Recusado, Assinatura Cancelada, Reativada, Reembolso, Chargeback
+// Eventos esperados: Pagamento Confirmado, Pagamento Pendente, Pagamento Recusado,
+// Assinatura Cancelada, Assinatura Reativada, Reembolso Concluído, Chargeback Recebido.
+//
+// IMPORTANTE:
+// - NUNCA colocar ESCALEPAY_WEBHOOK_SECRET ou ESCALEPAY_API_KEY no código.
+// - Adicionar as credenciais reais nas Environment Variables da Vercel.
+// - Este ficheiro está preparado para receber esses valores via process.env.
 
 const WEBHOOK_SECRET = process.env.ESCALEPAY_WEBHOOK_SECRET || '';
-const API_KEY = process.env.ESCALEPAY_API_KEY || '';
 
-// Base de dados temporária em memória (substituir por Supabase depois)
+// Base em memória (temporária). Substituir por Supabase futuramente.
 const payments: any[] = [];
 
-function verifySignature(payload: string, signature: string): boolean {
-  if (!WEBHOOK_SECRET) return true; // Se não tem secret configurado, aceita (modo desenvolvimento)
-  
-  const expected = crypto
-    .createHmac('sha256', WEBHOOK_SECRET)
-    .update(payload)
-    .digest('hex');
-  
-  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
+function verifySignature(rawBody: string, signature: string): boolean {
+  if (!WEBHOOK_SECRET) return true; // Modo desenvolvimento
+  const expected = crypto.createHmac('sha256', WEBHOOK_SECRET).update(rawBody).digest('hex');
+  try {
+    return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
+  } catch {
+    return false;
+  }
+}
+
+function mapEventToStatus(event: string): string {
+  switch (event) {
+    case 'payment.confirmed':
+    case 'payment.completed':
+    case 'subscription.reactivated':
+      return 'paid';
+    case 'payment.pending':
+      return 'pending';
+    case 'payment.failed':
+    case 'payment.declined':
+      return 'failed';
+    case 'payment.cancelled':
+    case 'subscription.cancelled':
+      return 'cancelled';
+    case 'refund.completed':
+    case 'chargeback.received':
+      return 'refunded';
+    default:
+      return 'pending';
+  }
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -30,19 +56,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const rawBody = JSON.stringify(req.body);
     const signature = (req.headers['x-escalepay-signature'] as string) || '';
 
-    // Verificar assinatura se o secret estiver configurado
     if (WEBHOOK_SECRET && !verifySignature(rawBody, signature)) {
-      console.error('Assinatura inválida');
       return res.status(401).json({ error: 'Invalid signature' });
     }
 
-    const { event, data } = req.body;
+    const { event, data } = req.body || {};
+    const transactionId = data?.transaction_id || data?.id || 'unknown';
 
-    console.log('EscalePay Webhook:', event);
-
-    const transactionId = data?.transaction_id || data?.id;
-
-    // Idempotência: verificar se já processamos esta transação
+    // Idempotência
     const existing = payments.find(p => p.transaction_id === transactionId && p.event === event);
     if (existing) {
       return res.status(200).json({ ok: true, message: 'Already processed' });
@@ -51,43 +72,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const payment = {
       transaction_id: transactionId,
       event,
-      status: 'pending',
-      amount: data?.amount || 0,
+      status: mapEventToStatus(event),
+      amount: Number(data?.amount || 0),
       currency: data?.currency || 'BRL',
       customer_reference: data?.customer_reference || data?.customer_email || '',
       created_at: new Date().toISOString(),
     };
 
-    // Mapear eventos para status
-    switch (event) {
-      case 'payment.confirmed':
-      case 'payment.completed':
-        payment.status = 'paid';
-        break;
-      case 'payment.pending':
-        payment.status = 'pending';
-        break;
-      case 'payment.failed':
-      case 'payment.declined':
-        payment.status = 'failed';
-        break;
-      case 'payment.cancelled':
-      case 'subscription.cancelled':
-        payment.status = 'cancelled';
-        break;
-      case 'subscription.reactivated':
-        payment.status = 'paid';
-        break;
-      case 'refund.completed':
-      case 'chargeback.received':
-        payment.status = 'refunded';
-        break;
-    }
-
     payments.push(payment);
 
-    // TODO: Salvar no Supabase quando estiver configurado
-    // await supabase.from('payments').insert(payment);
+    // TODO: Quando Supabase estiver configurado, substituir esta linha por:
+    // await supabase.from('payments').upsert(payment);
+
+    console.log('EscalePay webhook processado:', payment);
 
     return res.status(200).json({ ok: true, payment });
   } catch (error) {
