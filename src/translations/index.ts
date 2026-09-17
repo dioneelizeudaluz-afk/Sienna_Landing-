@@ -1,15 +1,22 @@
 export const translations = {
   pt: {
+    // Header
     online: 'Online',
+    // Landing
     start: 'COMEÇAR',
     start_hint: 'Toque na imagem para começar',
+    // Age Gate
     age_title: 'Você tem mais de 18 anos?',
     age_yes: 'SIM, TENHO 18+',
     age_no: 'NÃO',
     age_blocked_title: 'Acesso bloqueado',
     age_blocked_text: 'Este conteúdo é exclusivo para maiores de 18 anos.',
     age_exit: 'Sair',
-    back: 'Voltar',
+    // Common
+    back: '← Voltar',
+    // Quiz
+    quiz_progress: 'Pergunta',
+    quiz_of: 'de',
     quiz1_title: 'O que despertou a sua curiosidade?',
     quiz1_a: 'Ver as prévias',
     quiz1_b: 'Conhecer o conteúdo',
@@ -18,12 +25,11 @@ export const translations = {
     quiz2_title: 'Você está preparado para o conteúdo?',
     quiz2_a: 'Sim',
     quiz2_b: 'Não',
-    quiz2_not_ready: 'Sem problema. Podes voltar quando estiveres pronto.',
     quiz3_title: 'Quer desbloquear a experiência completa?',
     quiz3_a: 'Sim, quero continuar',
     quiz3_b: 'Quero ver as prévias primeiro',
-    quiz_progress: 'Pergunta',
-    quiz_of: 'de',
+    quiz_continue: 'CONTINUAR',
+    // Telegram
     telegram_title: 'Você tem Telegram?',
     telegram_yes: 'Sim',
     telegram_no: 'Não',
@@ -31,6 +37,7 @@ export const translations = {
     telegram_need_text: 'Para continuar, você precisa do Telegram instalado.',
     telegram_download: 'Baixar Telegram',
     telegram_installed: 'Já instalei',
+    // Choice
     choice_title: 'Escolhe o teu acesso',
     choice_preview_title: 'Prévia Grátis',
     choice_preview_desc: 'Conhece algumas prévias antes de decidir.',
@@ -38,6 +45,7 @@ export const translations = {
     choice_vip_title: 'Acesso VIP 👑',
     choice_vip_desc: 'Experiência completa com todo o conteúdo exclusivo.',
     choice_vip_btn: 'Acesso VIP 👑',
+    // Payment
     payment_checking: 'Verificando o seu pagamento...',
     payment_pending_title: 'Aguardando confirmação',
     payment_pending_text: 'O pagamento ainda está a ser confirmado.',
@@ -48,6 +56,7 @@ export const translations = {
     payment_confirmed_text: 'O seu Acesso VIP 👑 está pronto.',
     access_ebook: 'E-book',
     access_telegram: 'Entrar no Grupo VIP',
+    // Errors
     error_connection: 'Erro de conexão. Tenta novamente.',
     error_generic: 'Algo correu mal. Tenta novamente.',
   },
@@ -61,7 +70,9 @@ export const translations = {
     age_blocked_title: 'Access blocked',
     age_blocked_text: 'This content is exclusively for adults 18 years and older.',
     age_exit: 'Exit',
-    back: 'Back',
+    back: '← Back',
+    quiz_progress: 'Question',
+    quiz_of: 'of',
     quiz1_title: 'What sparked your curiosity?',
     quiz1_a: 'See previews',
     quiz1_b: 'Discover the content',
@@ -70,12 +81,10 @@ export const translations = {
     quiz2_title: 'Are you ready for the content?',
     quiz2_a: 'Yes',
     quiz2_b: 'No',
-    quiz2_not_ready: 'No problem. Come back when you are ready.',
-    quiz3_title: 'Want to unlock the full experience?',
+    quiz3_title: 'Do you want to unlock the full experience?',
     quiz3_a: 'Yes, continue',
     quiz3_b: 'See previews first',
-    quiz_progress: 'Question',
-    quiz_of: 'of',
+    quiz_continue: 'CONTINUE',
     telegram_title: 'Do you have Telegram?',
     telegram_yes: 'Yes',
     telegram_no: 'No',
@@ -113,7 +122,9 @@ export const translations = {
     age_blocked_title: 'Acceso bloqueado',
     age_blocked_text: 'Este contenido es exclusivo para mayores de 18 años.',
     age_exit: 'Salir',
-    back: 'Volver',
+    back: '← Volver',
+    quiz_progress: 'Pregunta',
+    quiz_of: 'de',
     quiz1_title: '¿Qué despertó tu curiosidad?',
     quiz1_a: 'Ver las vistas previas',
     quiz1_b: 'Conocer el contenido',
@@ -122,12 +133,10 @@ export const translations = {
     quiz2_title: '¿Estás preparado para el contenido?',
     quiz2_a: 'Sí',
     quiz2_b: 'No',
-    quiz2_not_ready: 'Sin problema. Vuelve cuando estés listo.',
     quiz3_title: '¿Quieres desbloquear la experiencia completa?',
     quiz3_a: 'Sí, continuar',
     quiz3_b: 'Ver las vistas previas primero',
-    quiz_progress: 'Pregunta',
-    quiz_of: 'de',
+    quiz_continue: 'CONTINUAR',
     telegram_title: '¿Tienes Telegram?',
     telegram_yes: 'Sí',
     telegram_no: 'No',
@@ -158,3 +167,11 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations.pt;
+
+export type Language = 'pt' | 'en' | 'es';
+
+export const LANGUAGES: { code: Language; flag: string; label: string }[] = [
+  { code: 'pt', flag: '🇧🇷', label: 'Português' },
+  { code: 'en', flag: '🇺🇸', label: 'English' },
+  { code: 'es', flag: '🇪🇸', label: 'Español' },
+];
