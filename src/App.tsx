@@ -85,7 +85,7 @@ function AppContent() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 100%)' }}>
+    <div style={{ minHeight: '100vh', background: '#000000' }}>
       <Header />
       {render()}
     </div>
