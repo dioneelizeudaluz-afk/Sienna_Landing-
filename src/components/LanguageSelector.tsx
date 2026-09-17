@@ -29,8 +29,8 @@ export default function LanguageSelector() {
           alignItems: 'center',
           gap: 8,
           padding: '8px 12px',
-          background: 'rgba(220,38,38,0.15)',
-          border: '1px solid rgba(220,38,38,0.4)',
+          background: '#0a0a0a',
+          border: '1px solid #1a1a1a',
           borderRadius: 10,
           color: '#fff',
           fontSize: 13,
@@ -41,7 +41,7 @@ export default function LanguageSelector() {
       >
         <span style={{ fontSize: 18 }}>{current.flag}</span>
         <span>{current.label}</span>
-        <ChevronDown size={14} style={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }} />
+        <ChevronDown size={14} style={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s', color: '#6b7280' }} />
       </button>
 
       {open && (
@@ -50,11 +50,11 @@ export default function LanguageSelector() {
             position: 'absolute',
             top: 'calc(100% + 6px)',
             right: 0,
-            background: '#1a0a0a',
-            border: '1px solid rgba(220,38,38,0.4)',
+            background: '#0a0a0a',
+            border: '1px solid #1a1a1a',
             borderRadius: 12,
             overflow: 'hidden',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.8)',
             minWidth: 180,
             zIndex: 200,
           }}
@@ -72,7 +72,7 @@ export default function LanguageSelector() {
                 gap: 12,
                 width: '100%',
                 padding: '12px 16px',
-                background: lang === l.code ? 'rgba(220,38,38,0.25)' : 'transparent',
+                background: lang === l.code ? 'rgba(220,38,38,0.1)' : 'transparent',
                 border: 'none',
                 color: lang === l.code ? '#f87171' : '#d1d5db',
                 fontSize: 14,
