@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { LanguageProvider } from './hooks/useLanguage';
 import Header from './components/Header';
 import LandingScreen from './components/LandingScreen';
 import AgeGate from './components/AgeGate';
@@ -8,7 +9,7 @@ import ChoiceScreen from './components/ChoiceScreen';
 import PaymentStatus from './components/PaymentStatus';
 import type { Step } from './config/config';
 
-export default function App() {
+function AppContent() {
   const [step, setStep] = useState<Step>('landing');
   const [history, setHistory] = useState<Step[]>([]);
 
@@ -88,5 +89,13 @@ export default function App() {
       <Header />
       {render()}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
