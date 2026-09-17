@@ -7,9 +7,7 @@ export function useLanguage() {
 
   useEffect(() => {
     const saved = localStorage.getItem('sienna_lang') as Language;
-    if (saved && ['pt', 'en', 'es'].includes(saved)) {
-      setLang(saved);
-    }
+    if (saved && ['pt', 'en', 'es'].includes(saved)) setLang(saved);
   }, []);
 
   const changeLang = (newLang: Language) => {
@@ -17,9 +15,7 @@ export function useLanguage() {
     localStorage.setItem('sienna_lang', newLang);
   };
 
-  const t = (key: TranslationKey): string => {
-    return translations[lang][key] || key;
-  };
+  const t = (key: TranslationKey): string => translations[lang][key] || key;
 
   return { lang, changeLang, t };
 }
