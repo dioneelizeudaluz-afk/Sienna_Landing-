@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
-import { CONFIG } from '../config/config';
+import BackButton from './BackButton';
 
-export default function AgeGate({ onContinue }: { onContinue: () => void }) {
+export default function AgeGate({ onContinue, onBack }: { onContinue: () => void; onBack: () => void }) {
   const { t } = useLanguage();
   const [blocked, setBlocked] = useState(false);
 
   if (blocked) {
     return (
-      <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
-        <div className="card-premium" style={{ textAlign: 'center', width: '100%' }}>
-          <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16, color: '#ef4444' }}>{t('age_blocked')}</h2>
-          <button onClick={() => window.location.href = 'https://google.com'} className="btn-secondary" style={{ marginTop: 16 }}>
-            {t('age_back')}
+      <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
+        <BackButton onClick={() => setBlocked(false)} />
+        <div className="card-premium" style={{ textAlign: 'center' }}>
+          <div className="age-emoji">🔞</div>
+          <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 12, color: '#ef4444' }}>{t('age_blocked_title')}</h2>
+          <p style={{ fontSize: 15, color: '#9ca3af', marginBottom: 24 }}>{t('age_blocked_text')}</p>
+          <button onClick={() => window.location.href = 'https://google.com'} className="btn-secondary">
+            {t('age_exit')}
           </button>
         </div>
       </div>
@@ -21,7 +24,9 @@ export default function AgeGate({ onContinue }: { onContinue: () => void }) {
 
   return (
     <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
+      <BackButton onClick={onBack} />
       <div className="card-premium" style={{ textAlign: 'center' }}>
+        <div className="age-emoji">🔞</div>
         <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 24 }}>{t('age_title')}</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <button onClick={onContinue} className="btn-primary">{t('age_yes')}</button>
