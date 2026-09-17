@@ -10,7 +10,7 @@
 }
 
 html, body {
-  background: #0a0a0f;
+  background: #0a0a0a;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
@@ -20,7 +20,7 @@ html, body {
 .btn-primary {
   width: 100%;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   border: none;
   border-radius: 12px;
@@ -28,7 +28,7 @@ html, body {
   font-size: 15px;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+  box-shadow: 0 4px 20px rgba(220,38,38,0.4);
   letter-spacing: 0.5px;
 }
 
@@ -39,8 +39,8 @@ html, body {
   width: 100%;
   padding: 16px 24px;
   background: transparent;
-  color: #a78bfa;
-  border: 2px solid rgba(139,92,246,0.4);
+  color: #f87171;
+  border: 2px solid rgba(220,38,38,0.4);
   border-radius: 12px;
   font-weight: 700;
   font-size: 15px;
@@ -48,7 +48,7 @@ html, body {
   transition: all 0.3s;
 }
 
-.btn-secondary:active { transform: scale(0.97); background: rgba(139,92,246,0.1); }
+.btn-secondary:active { transform: scale(0.97); background: rgba(220,38,38,0.1); }
 
 .btn-green {
   width: 100%;
@@ -84,19 +84,19 @@ html, body {
   transition: color 0.2s;
 }
 
-.btn-back:hover { color: #a78bfa; }
+.btn-back:hover { color: #f87171; }
 
 .card-premium {
-  background: linear-gradient(145deg, #131320, #0f0f1a);
-  border: 1px solid rgba(139,92,246,0.3);
+  background: linear-gradient(145deg, #1a0a0a, #0f0505);
+  border: 1px solid rgba(220,38,38,0.3);
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 8px 40px rgba(139,92,246,0.15);
+  box-shadow: 0 8px 40px rgba(220,38,38,0.15);
 }
 
 .option-card {
-  background: linear-gradient(145deg, #131320, #0f0f1a);
-  border: 2px solid rgba(139,92,246,0.2);
+  background: linear-gradient(145deg, #1a0a0a, #0f0505);
+  border: 2px solid rgba(220,38,38,0.2);
   border-radius: 16px;
   padding: 20px;
   cursor: pointer;
@@ -109,31 +109,31 @@ html, body {
 }
 
 .option-card:active {
-  border-color: #8b5cf6;
-  background: linear-gradient(145deg, #1a1a2e, #131320);
+  border-color: #dc2626;
+  background: linear-gradient(145deg, #2a1010, #1a0a0a);
   transform: scale(0.98);
 }
 
 .option-card.selected {
-  border-color: #8b5cf6;
-  background: linear-gradient(145deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05));
-  box-shadow: 0 0 30px rgba(139,92,246,0.3);
+  border-color: #dc2626;
+  background: linear-gradient(145deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05));
+  box-shadow: 0 0 30px rgba(220,38,38,0.3);
 }
 
 .progress-bar {
   width: 100%;
   height: 6px;
-  background: #1f1f2e;
+  background: #1f0f0f;
   border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+  background: linear-gradient(90deg, #dc2626, #f87171);
   border-radius: 3px;
   transition: width 0.5s ease;
-  box-shadow: 0 0 15px rgba(139,92,246,0.6);
+  box-shadow: 0 0 15px rgba(220,38,38,0.6);
 }
 
 .online-dot {
@@ -154,7 +154,7 @@ html, body {
   position: relative;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(139,92,246,0.4), 0 0 80px rgba(139,92,246,0.2);
+  box-shadow: 0 20px 60px rgba(220,38,38,0.4), 0 0 80px rgba(220,38,38,0.2);
   cursor: pointer;
   transition: transform 0.3s;
 }
@@ -171,7 +171,7 @@ html, body {
   content: '';
   position: absolute;
   inset: 0;
-  border: 2px solid rgba(139,92,246,0.4);
+  border: 2px solid rgba(220,38,38,0.4);
   border-radius: 24px;
   pointer-events: none;
 }
@@ -185,8 +185,8 @@ html, body {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(139,92,246,0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid rgba(220,38,38,0.2);
+  border-top-color: #dc2626;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -196,7 +196,7 @@ html, body {
 .lang-btn {
   padding: 6px 12px;
   background: transparent;
-  border: 1px solid rgba(139,92,246,0.3);
+  border: 1px solid rgba(220,38,38,0.3);
   border-radius: 8px;
   color: #9ca3af;
   font-size: 12px;
@@ -206,14 +206,14 @@ html, body {
 }
 
 .lang-btn.active {
-  background: #8b5cf6;
+  background: #dc2626;
   color: white;
-  border-color: #8b5cf6;
+  border-color: #dc2626;
 }
 
 .age-emoji {
   font-size: 80px;
   text-align: center;
   margin-bottom: 20px;
-  filter: drop-shadow(0 0 30px rgba(139,92,246,0.6));
+  filter: drop-shadow(0 0 30px rgba(220,38,38,0.6));
 }
