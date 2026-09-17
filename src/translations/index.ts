@@ -1,23 +1,18 @@
 export const translations = {
   pt: {
-    // Header
     online: 'Online',
-    // Landing
     welcome_title: 'Welcome to my private side…',
     welcome_line1: 'Exclusive content, little secrets & moments you won\'t find anywhere else.',
     welcome_line2: 'Are you ready to unlock it?',
     start: 'COMEÇAR',
     start_hint: 'Toque na imagem para começar',
-    // Age Gate
     age_title: 'Você tem mais de 18 anos?',
     age_yes: 'SIM, TENHO 18+',
     age_no: 'NÃO',
     age_blocked_title: 'Acesso bloqueado',
     age_blocked_text: 'Este conteúdo é exclusivo para maiores de 18 anos.',
     age_exit: 'Sair',
-    // Common
     back: '← Voltar',
-    // Quiz
     quiz_progress: 'Pergunta',
     quiz_of: 'de',
     quiz1_title: 'O que despertou a sua curiosidade?',
@@ -32,7 +27,6 @@ export const translations = {
     quiz3_a: 'Sim, quero continuar',
     quiz3_b: 'Quero ver as prévias primeiro',
     quiz_continue: 'CONTINUAR',
-    // Telegram
     telegram_title: 'Você tem Telegram?',
     telegram_yes: 'Sim',
     telegram_no: 'Não',
@@ -40,7 +34,6 @@ export const translations = {
     telegram_need_text: 'Para continuar, você precisa do Telegram instalado.',
     telegram_download: 'Baixar Telegram',
     telegram_installed: 'Já instalei',
-    // Choice
     choice_title: 'Escolhe o teu acesso',
     choice_preview_title: 'Prévia Grátis',
     choice_preview_desc: 'Conhece algumas prévias antes de decidir.',
@@ -48,7 +41,6 @@ export const translations = {
     choice_vip_title: 'Acesso VIP 👑',
     choice_vip_desc: 'Experiência completa com todo o conteúdo exclusivo.',
     choice_vip_btn: 'Acesso VIP 👑',
-    // Payment
     payment_checking: 'Verificando o seu pagamento...',
     payment_pending_title: 'Aguardando confirmação',
     payment_pending_text: 'O pagamento ainda está a ser confirmado.',
@@ -59,7 +51,6 @@ export const translations = {
     payment_confirmed_text: 'O seu Acesso VIP 👑 está pronto.',
     access_ebook: 'E-book',
     access_telegram: 'Entrar no Grupo VIP',
-    // Errors
     error_connection: 'Erro de conexão. Tenta novamente.',
     error_generic: 'Algo correu mal. Tenta novamente.',
   },
