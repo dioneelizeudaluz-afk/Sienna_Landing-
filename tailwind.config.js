@@ -3,11 +3,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        'sienna-black': '#0a0a0f',
-        'sienna-dark': '#131320',
-        'sienna-purple': '#8b5cf6',
-        'sienna-violet': '#7c3aed',
-        'sienna-glow': '#a78bfa',
+        'sienna-black': '#0a0a0a',
+        'sienna-dark': '#1a0a0a',
+        'sienna-red': '#dc2626',
+        'sienna-red-dark': '#991b1b',
+        'sienna-glow': '#f87171',
       },
     },
   },
