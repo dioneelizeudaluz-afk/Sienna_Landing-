@@ -1,53 +1,92 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
-import IntroScreen from './components/IntroScreen';
+import LandingScreen from './components/LandingScreen';
 import AgeGate from './components/AgeGate';
 import Quiz from './components/Quiz';
 import TelegramCheck from './components/TelegramCheck';
 import ChoiceScreen from './components/ChoiceScreen';
 import PaymentStatus from './components/PaymentStatus';
-
-type Step = 'landing' | 'intro' | 'age' | 'quiz' | 'telegram' | 'choice' | 'payment';
+import type { Step } from './config/config';
 
 export default function App() {
   const [step, setStep] = useState<Step>('landing');
+  const [history, setHistory] = useState<Step[]>([]);
 
-  const renderStep = () => {
+  const goTo = (next: Step) => {
+    setHistory([...history, step]);
+    setStep(next);
+  };
+
+  const goBack = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory(history.slice(0, -1));
+    setStep(prev);
+  };
+
+  const render = () => {
     switch (step) {
       case 'landing':
-        return <Landing onStart={() => setStep('intro')} />;
-      case 'intro':
-        return <IntroScreen onContinue={() => setStep('age')} />;
+        return <LandingScreen onStart={() => goTo('age')} />;
       case 'age':
-        return <AgeGate onContinue={() => setStep('quiz')} />;
-      case 'quiz':
-        return <Quiz onComplete={() => setStep('telegram')} />;
+        return <AgeGate onContinue={() => goTo('quiz1')} onBack={goBack} />;
+      case 'quiz1':
+        return (
+          <Quiz
+            step={1}
+            totalSteps={3}
+            questionKey="quiz1_title"
+            options={[
+              { key: 'quiz1_a', value: 'preview' },
+              { key: 'quiz1_b', value: 'content' },
+              { key: 'quiz1_c', value: 'vip' },
+              { key: 'quiz1_d', value: 'all' },
+            ]}
+            onSelect={() => goTo('quiz2')}
+            onBack={goBack}
+          />
+        );
+      case 'quiz2':
+        return (
+          <Quiz
+            step={2}
+            totalSteps={3}
+            questionKey="quiz2_title"
+            options={[
+              { key: 'quiz2_a', value: 'yes' },
+              { key: 'quiz2_b', value: 'no' },
+            ]}
+            onSelect={() => goTo('quiz3')}
+            onBack={goBack}
+          />
+        );
+      case 'quiz3':
+        return (
+          <Quiz
+            step={3}
+            totalSteps={3}
+            questionKey="quiz3_title"
+            options={[
+              { key: 'quiz3_a', value: 'continue' },
+              { key: 'quiz3_b', value: 'preview' },
+            ]}
+            onSelect={() => goTo('telegram')}
+            onBack={goBack}
+          />
+        );
       case 'telegram':
-        return <TelegramCheck onContinue={() => setStep('choice')} />;
+        return <TelegramCheck onContinue={() => goTo('choice')} onBack={goBack} />;
       case 'choice':
-        return <ChoiceScreen onCheckout={() => setStep('payment')} />;
+        return <ChoiceScreen onCheckout={() => goTo('payment')} onBack={goBack} />;
       case 'payment':
-        return <PaymentStatus />;
+        return <PaymentStatus onBack={goBack} />;
     }
   };
 
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 100%)' }}>
       <Header />
-      {renderStep()}
-    </div>
-  );
-}
-
-function Landing({ onStart }: { onStart: () => void }) {
-  return (
-    <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', padding: '20px', maxWidth: 500, margin: '0 auto', width: '100%' }}>
-      <div className="cover-frame" style={{ marginBottom: 32 }}>
-        <img src="/sienna-cover.jpg" alt="Sienna" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).parentElement!.innerHTML = '<div style="padding:120px 20px;text-align:center;color:#666;background:#131320;border-radius:24px;font-size:13px;">Adiciona a imagem em /public/sienna-cover.jpg</div>'; }} />
-      </div>
-      <button onClick={onStart} className="btn-primary" style={{ marginTop: 'auto' }}>
-        COMEÇAR
-      </button>
+      {render()}
     </div>
   );
 }
