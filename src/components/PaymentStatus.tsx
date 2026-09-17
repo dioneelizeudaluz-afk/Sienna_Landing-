@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
-import { CONFIG } from '../config/config';
-import { BookOpen, Send, CheckCircle, RefreshCw } from 'lucide-react';
+import { RefreshCw, CheckCircle, BookOpen, Send } from 'lucide-react';
+import BackButton from './BackButton';
 
-type Status = 'checking' | 'paid' | 'pending' | 'failed';
+type Status = 'checking' | 'pending' | 'paid' | 'failed' | 'cancelled';
 
-export default function PaymentStatus() {
+export default function PaymentStatus({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
   const [status, setStatus] = useState<Status>('checking');
-  const [hasPaid, setHasPaid] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     checkPayment();
@@ -16,18 +16,21 @@ export default function PaymentStatus() {
 
   const checkPayment = async () => {
     setStatus('checking');
+    setError('');
     try {
-      const res = await fetch('/api/access');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.paid) {
-          setStatus('paid');
-          setHasPaid(true);
-          return;
-        }
+      const res = await fetch('/api/access', { credentials: 'include' });
+      if (!res.ok) {
+        setStatus('pending');
+        return;
       }
-      setStatus('pending');
-    } catch {
+      const data = await res.json();
+
+      if (data.paid === true) setStatus('paid');
+      else if (data.status === 'failed') setStatus('failed');
+      else if (data.status === 'cancelled') setStatus('cancelled');
+      else setStatus('pending');
+    } catch (e) {
+      setError(t('error_connection'));
       setStatus('pending');
     }
   };
@@ -41,23 +44,23 @@ export default function PaymentStatus() {
     );
   }
 
-  if (status === 'paid' || hasPaid) {
+  if (status === 'paid') {
     return (
       <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
         <div className="card-premium" style={{ textAlign: 'center' }}>
           <CheckCircle size={60} color="#22c55e" style={{ marginBottom: 20 }} />
-          <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>{t('payment_confirmed')}</h2>
-          <p style={{ fontSize: 15, color: '#9ca3af', marginBottom: 32 }}>{t('payment_ready')}</p>
+          <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>{t('payment_confirmed_title')}</h2>
+          <p style={{ fontSize: 15, color: '#9ca3af', marginBottom: 32 }}>{t('payment_confirmed_text')}</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <a href={CONFIG.EBOOK_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+            <a href="/api/access?type=ebook" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
               <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                 <BookOpen size={18} />
                 {t('access_ebook')}
               </button>
             </a>
-            <a href={CONFIG.MAIN_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <button className="btn-green" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <a href="/api/access?type=telegram" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+              <button className="btn-green">
                 <Send size={18} />
                 {t('access_telegram')}
               </button>
@@ -70,19 +73,19 @@ export default function PaymentStatus() {
 
   return (
     <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
+      <BackButton onClick={onBack} />
       <div className="card-premium" style={{ textAlign: 'center' }}>
         <RefreshCw size={48} color="#f59e0b" style={{ marginBottom: 20 }} />
-        <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>{t('payment_pending')}</h2>
+        <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>
+          {status === 'failed' ? t('payment_failed') : status === 'cancelled' ? t('payment_cancelled') : t('payment_pending_title')}
+        </h2>
         <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 24 }}>
-          {status === 'failed' ? t('payment_failed') : t('payment_pending')}
+          {status === 'pending' ? t('payment_pending_text') : ''}
         </p>
-        <button onClick={checkPayment} className="btn-primary" style={{ marginBottom: 12 }}>
+        {error && <p style={{ fontSize: 12, color: '#ef4444', marginBottom: 12 }}>{error}</p>}
+        <button onClick={checkPayment} className="btn-primary">
           {t('payment_check_again')}
         </button>
-        <div style={{ marginTop: 20, padding: 16, background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 12 }}>
-          <p style={{ fontSize: 13, color: '#a78bfa', marginBottom: 4, fontWeight: 700 }}>{t('payment_proof')}</p>
-          <p style={{ fontSize: 12, color: '#9ca3af' }}>{t('payment_proof_desc')}</p>
-        </div>
       </div>
     </div>
   );
