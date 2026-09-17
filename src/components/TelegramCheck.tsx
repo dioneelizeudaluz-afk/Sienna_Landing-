@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
 import { CONFIG } from '../config/config';
+import BackButton from './BackButton';
 
-export default function TelegramCheck({ onContinue }: { onContinue: () => void }) {
+export default function TelegramCheck({ onContinue, onBack }: { onContinue: () => void; onBack: () => void }) {
   const { t } = useLanguage();
   const [noTelegram, setNoTelegram] = useState(false);
 
   return (
     <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
+      <BackButton onClick={noTelegram ? () => setNoTelegram(false) : onBack} />
+
       <div className="card-premium">
         {!noTelegram ? (
           <>
@@ -19,11 +22,12 @@ export default function TelegramCheck({ onContinue }: { onContinue: () => void }
           </>
         ) : (
           <>
-            <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 20, textAlign: 'center' }}>{t('telegram_need')}</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 12, textAlign: 'center' }}>{t('telegram_need_title')}</h2>
+            <p style={{ fontSize: 14, color: '#9ca3af', textAlign: 'center', marginBottom: 24 }}>{t('telegram_need_text')}</p>
             <a href={CONFIG.TELEGRAM_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
               <button className="btn-primary" style={{ marginBottom: 12 }}>{t('telegram_download')}</button>
             </a>
-            <button onClick={() => setNoTelegram(false)} className="btn-secondary">{t('telegram_back')}</button>
+            <button onClick={onContinue} className="btn-secondary">{t('telegram_installed')}</button>
           </>
         )}
       </div>
