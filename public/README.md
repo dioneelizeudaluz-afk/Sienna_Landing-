@@ -1,16 +1,26 @@
 # Pasta public
 
-## Imagem da capa
+## Ficheiros necessários
 
-Coloca aqui a imagem da Sienna com o nome exato:
+### 1. Imagem da capa
+Colocar com o nome exato:
 
 ```
 sienna-cover.jpg
 ```
 
-Recomendações:
-- Formato: JPG
-- Dimensões: 800x1000 px (vertical) ou 1200x800 px (horizontal)
-- Tamanho: máx 500KB
+### 2. Vídeo de fundo da Home
+Colocar com o nome exato:
 
-Esta imagem será usada como capa principal da landing page.
+```
+Tay Usagi (100)-pmtdo.mp4
+```
+
+O vídeo aparecerá apenas na primeira página (Home).
+
+Recomendações do vídeo:
+- Formato: MP4
+- Resolução: 720x1280 (vertical) ou 1080x1920
+- Duração: 5-15 segundos (loop)
+- Tamanho: máx 5MB
+- Sem áudio (vai ser muted)
