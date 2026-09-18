@@ -3,7 +3,7 @@ import { CONFIG } from '../config/config';
 import { ExternalLink, Crown } from 'lucide-react';
 import BackButton from './BackButton';
 
-export default function ChoiceScreen({ onCheckout, onBack }: { onCheckout: () => void; onBack: () => void }) {
+export default function ChoiceScreen({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
 
   const handlePreview = () => {
@@ -12,7 +12,6 @@ export default function ChoiceScreen({ onCheckout, onBack }: { onCheckout: () =>
 
   const handleCheckout = () => {
     window.open(CONFIG.CHECKOUT_URL, '_blank');
-    onCheckout();
   };
 
   return (
@@ -27,8 +26,8 @@ export default function ChoiceScreen({ onCheckout, onBack }: { onCheckout: () =>
             <ExternalLink size={20} color="#9ca3af" />
             <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_preview_title')}</h3>
           </div>
-          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16 }}>{t('choice_preview_desc')}</p>
-          <button onClick={handlePreview} className="btn-secondary">{t('choice_preview_btn')}</button>
+          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.5 }}>{t('choice_preview_desc')}</p>
+          <button onClick={handlePreview} className="btn-secondary">{t('choice_preview_cta')}</button>
         </div>
 
         <div className="card-premium" style={{ borderColor: 'rgba(220,38,38,0.4)', boxShadow: '0 8px 40px rgba(220,38,38,0.15)' }}>
@@ -36,8 +35,8 @@ export default function ChoiceScreen({ onCheckout, onBack }: { onCheckout: () =>
             <Crown size={20} color="#fbbf24" />
             <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_vip_title')}</h3>
           </div>
-          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16 }}>{t('choice_vip_desc')}</p>
-          <button onClick={handleCheckout} className="btn-primary">{t('choice_vip_btn')}</button>
+          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.5 }}>{t('choice_vip_desc')}</p>
+          <button onClick={handleCheckout} className="btn-primary">{t('choice_vip_cta')}</button>
         </div>
       </div>
     </div>
