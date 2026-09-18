@@ -1,11 +1,22 @@
 import { useLanguage } from '../hooks/useLanguage';
 import { CONFIG } from '../config/config';
+import AdminMenu from './AdminMenu';
 
 export default function HomeScreen({ onStart }: { onStart: () => void }) {
   const { t } = useLanguage();
 
+  const handleStart = () => {
+    // Registar clique no backend (não bloqueia navegação)
+    fetch('/api/track-start', { method: 'POST' }).catch(() => {
+      // falha silenciosa - não bloqueia o utilizador
+    });
+    onStart();
+  };
+
   return (
     <div className="home-screen fade-in">
+      <AdminMenu />
+
       <video
         className="home-video"
         autoPlay
@@ -20,7 +31,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
       <div className="home-overlay" />
 
       <div className="home-content">
-        <div className="cover-frame" onClick={onStart} style={{ marginBottom: 20 }}>
+        <div className="cover-frame" onClick={handleStart} style={{ marginBottom: 20 }}>
           <img
             src={CONFIG.COVER_IMAGE}
             alt="Sienna"
@@ -59,7 +70,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
           </p>
         </div>
 
-        <button onClick={onStart} className="btn-primary" style={{ maxWidth: 340, margin: '0 auto' }}>
+        <button onClick={handleStart} className="btn-primary" style={{ maxWidth: 340, margin: '0 auto' }}>
           {t('home_cta')}
         </button>
       </div>
