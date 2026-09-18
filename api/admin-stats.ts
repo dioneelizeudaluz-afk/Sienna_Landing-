@@ -1,8 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
 
 const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || '';
+
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '',
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || '',
+});
 
 function generateToken(): string {
   const seed = ADMIN_ACCESS_CODE + '_sienna_secret_2024';
@@ -26,8 +31,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const todayKey = `start_today_${now.getUTCFullYear()}_${now.getUTCMonth() + 1}_${now.getUTCDate()}`;
 
     const [total, today] = await Promise.all([
-      kv.get<number>('start_total'),
-      kv.get<number>(todayKey),
+      redis.get<number>('start_total'),
+      redis.get<number>(todayKey),
     ]);
 
     return res.status(200).json({
