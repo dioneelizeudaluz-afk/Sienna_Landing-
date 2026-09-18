@@ -1,43 +1,44 @@
 import { useLanguage } from '../hooks/useLanguage';
 import { CONFIG } from '../config/config';
-import { ExternalLink, Crown } from 'lucide-react';
+import { Send } from 'lucide-react';
 import BackButton from './BackButton';
 
 export default function ChoiceScreen({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
 
-  const handlePreview = () => {
+  const handleJoin = () => {
     window.open(CONFIG.PREVIEW_GROUP_URL, '_blank');
-  };
-
-  const handleCheckout = () => {
-    window.open(CONFIG.CHECKOUT_URL, '_blank');
   };
 
   return (
     <div className="fade-in" style={{ minHeight: 'calc(100vh - 70px)', padding: 20, maxWidth: 500, margin: '0 auto', width: '100%' }}>
       <BackButton onClick={onBack} />
 
-      <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 24, textAlign: 'center' }}>{t('choice_title')}</h2>
+      <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12, textAlign: 'center' }}>{t('choice_title')}</h2>
+      <p style={{ fontSize: 15, color: '#9ca3af', textAlign: 'center', marginBottom: 32, lineHeight: 1.6 }}>
+        {t('choice_desc')}
+      </p>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div className="card-premium">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <ExternalLink size={20} color="#9ca3af" />
-            <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_preview_title')}</h3>
-          </div>
-          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.5 }}>{t('choice_preview_desc')}</p>
-          <button onClick={handlePreview} className="btn-secondary">{t('choice_preview_cta')}</button>
+      <div className="card-premium" style={{ borderColor: 'rgba(220,38,38,0.4)', boxShadow: '0 8px 40px rgba(220,38,38,0.15)', textAlign: 'center' }}>
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            margin: '0 auto 20px',
+            borderRadius: 20,
+            background: 'rgba(220,38,38,0.15)',
+            border: '1px solid rgba(220,38,38,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Send size={28} color="#f87171" />
         </div>
 
-        <div className="card-premium" style={{ borderColor: 'rgba(220,38,38,0.4)', boxShadow: '0 8px 40px rgba(220,38,38,0.15)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <Crown size={20} color="#fbbf24" />
-            <h3 style={{ fontSize: 18, fontWeight: 800 }}>{t('choice_vip_title')}</h3>
-          </div>
-          <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.5 }}>{t('choice_vip_desc')}</p>
-          <button onClick={handleCheckout} className="btn-primary">{t('choice_vip_cta')}</button>
-        </div>
+        <button onClick={handleJoin} className="btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+          {t('choice_group_cta')}
+        </button>
       </div>
     </div>
   );
