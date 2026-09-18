@@ -5,6 +5,7 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
   const [stats, setStats] = useState({ total: 0, today: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [errorDetail, setErrorDetail] = useState('');
   const [showReset, setShowReset] = useState(false);
   const [resetting, setResetting] = useState(false);
 
@@ -15,6 +16,7 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
   const loadStats = async () => {
     setLoading(true);
     setError('');
+    setErrorDetail('');
     try {
       const res = await fetch('/api/admin-stats', {
         headers: { 'x-admin-token': token },
@@ -24,9 +26,11 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
         setStats({ total: data.total || 0, today: data.today || 0 });
       } else {
         setError(data.error || 'Erro ao carregar');
+        setErrorDetail(data.detail || '');
       }
-    } catch (e) {
+    } catch (e: any) {
       setError('Erro de conexão');
+      setErrorDetail(e?.message || '');
     } finally {
       setLoading(false);
     }
@@ -34,6 +38,8 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
 
   const handleReset = async (scope: 'today' | 'total' | 'all') => {
     setResetting(true);
+    setError('');
+    setErrorDetail('');
     try {
       const res = await fetch('/api/admin-reset', {
         method: 'POST',
@@ -44,15 +50,20 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
         body: JSON.stringify({ scope }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         setShowReset(false);
         await loadStats();
       } else {
-        const data = await res.json();
         setError(data.error || 'Erro ao limpar');
+        setErrorDetail(data.detail || '');
+        setShowReset(false);
       }
-    } catch (e) {
+    } catch (e: any) {
       setError('Erro de conexão');
+      setErrorDetail(e?.message || '');
+      setShowReset(false);
     } finally {
       setResetting(false);
     }
@@ -130,6 +141,24 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
       </div>
 
       <div style={{ maxWidth: 500, margin: '0 auto', padding: 20 }}>
+        {error && (
+          <div
+            style={{
+              background: 'rgba(239,68,68,0.1)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              color: '#f87171',
+              padding: 12,
+              borderRadius: 8,
+              fontSize: 12,
+              marginBottom: 16,
+              wordBreak: 'break-word',
+            }}
+          >
+            <p style={{ fontWeight: 700, marginBottom: 4 }}>{error}</p>
+            {errorDetail && <p style={{ opacity: 0.8, fontSize: 11 }}>{errorDetail}</p>}
+          </div>
+        )}
+
         <h2
           style={{
             fontSize: 14,
@@ -146,13 +175,6 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
         {loading ? (
           <div className="card-premium" style={{ textAlign: 'center', padding: 40 }}>
             <p style={{ color: '#6b7280', fontSize: 14 }}>A carregar...</p>
-          </div>
-        ) : error ? (
-          <div
-            className="card-premium"
-            style={{ borderColor: 'rgba(239,68,68,0.3)', textAlign: 'center', padding: 20 }}
-          >
-            <p style={{ color: '#f87171', fontSize: 14 }}>{error}</p>
           </div>
         ) : (
           <>
