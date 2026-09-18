@@ -1,5 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '',
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || '',
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -11,12 +16,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const todayKey = `start_today_${now.getUTCFullYear()}_${now.getUTCMonth() + 1}_${now.getUTCDate()}`;
 
     const [total, today] = await Promise.all([
-      kv.incr('start_total'),
-      kv.incr(todayKey),
+      redis.incr('start_total'),
+      redis.incr(todayKey),
     ]);
 
-    // Expira a chave do dia após 7 dias
-    await kv.expire(todayKey, 60 * 60 * 24 * 7);
+    await redis.expire(todayKey, 60 * 60 * 24 * 7);
 
     return res.status(200).json({ total, today });
   } catch (error) {
