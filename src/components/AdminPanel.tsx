@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { X, LogOut, RefreshCw } from 'lucide-react';
+import { X, LogOut, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 
 export default function AdminPanel({ token, onLogout, onClose }: { token: string; onLogout: () => void; onClose: () => void }) {
   const [stats, setStats] = useState({ total: 0, today: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showReset, setShowReset] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
     loadStats();
@@ -27,6 +29,32 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
       setError('Erro de conexão');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReset = async (scope: 'today' | 'total' | 'all') => {
+    setResetting(true);
+    try {
+      const res = await fetch('/api/admin-reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': token,
+        },
+        body: JSON.stringify({ scope }),
+      });
+
+      if (res.ok) {
+        setShowReset(false);
+        await loadStats();
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Erro ao limpar');
+      }
+    } catch (e) {
+      setError('Erro de conexão');
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -179,10 +207,28 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
         )}
 
         <button
-          onClick={onLogout}
+          onClick={() => setShowReset(true)}
+          disabled={loading || resetting}
           className="btn-secondary"
           style={{
             marginTop: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            borderColor: 'rgba(239,68,68,0.4)',
+            color: '#f87171',
+          }}
+        >
+          <Trash2 size={16} />
+          RESET
+        </button>
+
+        <button
+          onClick={onLogout}
+          className="btn-secondary"
+          style={{
+            marginTop: 12,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -193,6 +239,94 @@ export default function AdminPanel({ token, onLogout, onClose }: { token: string
           LOGOUT
         </button>
       </div>
+
+      {showReset && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.9)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 500,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 20,
+          }}
+        >
+          <div
+            className="card-premium"
+            style={{
+              width: '100%',
+              maxWidth: 400,
+              borderColor: 'rgba(239,68,68,0.4)',
+            }}
+          >
+            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  margin: '0 auto 16px',
+                  borderRadius: 16,
+                  background: 'rgba(239,68,68,0.15)',
+                  border: '1px solid rgba(239,68,68,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <AlertTriangle size={24} color="#f87171" />
+              </div>
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>Reset Contadores</h3>
+              <p style={{ fontSize: 13, color: '#9ca3af' }}>Escolhe o que queres limpar</p>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                onClick={() => handleReset('today')}
+                disabled={resetting}
+                className="btn-secondary"
+                style={{ padding: 14, fontSize: 14 }}
+              >
+                Limpar apenas HOJE
+              </button>
+              <button
+                onClick={() => handleReset('total')}
+                disabled={resetting}
+                className="btn-secondary"
+                style={{ padding: 14, fontSize: 14 }}
+              >
+                Limpar apenas TOTAL
+              </button>
+              <button
+                onClick={() => handleReset('all')}
+                disabled={resetting}
+                className="btn-primary"
+                style={{ padding: 14, fontSize: 14, background: 'linear-gradient(135deg, #dc2626, #991b1b)' }}
+              >
+                {resetting ? 'A LIMPAR...' : 'Limpar TUDO'}
+              </button>
+              <button
+                onClick={() => setShowReset(false)}
+                disabled={resetting}
+                style={{
+                  padding: 14,
+                  fontSize: 14,
+                  background: 'transparent',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: 12,
+                  color: '#9ca3af',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
